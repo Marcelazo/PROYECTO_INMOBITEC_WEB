@@ -1,0 +1,134 @@
+<h2 mat-dialog-title>
+    <span [ngSwitch]="action">
+    <span *ngSwitchCase="'create'"> Crear Nuevo Cliente </span>
+    <span *ngSwitchCase="'update'"> Actualizar Cliente </span>
+    </span>
+</h2>
+<mat-dialog-content class="mat-typography user">
+    <form id="frm-user" [formGroup]="clienteForm.group" #ngFrmUser="ngForm" (ngSubmit)="handleSubmitUser(ngFrmUser)">
+        <div class="user__grid">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombres</mat-label>
+                <input matInput type="text" formControlName="nombre" appLettersWithSpace required placeholder="Ingrese Nombre" />
+                <mat-error *ngIf="clienteForm.field('nombre').invalid">
+                    {{ clienteForm.showErrors("nombre") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Apellidos Paterno</mat-label>
+                <input matInput type="text" formControlName="ape_pat" appLettersWithSpace required placeholder="Ingrese Apellido Paterno" />
+                <mat-error *ngIf="clienteForm.field('ape_pat').invalid">
+                    {{ clienteForm.showErrors("ape_pat") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Apellidos Materno</mat-label>
+                <input matInput type="text" formControlName="ape_mat" appLettersWithSpace required placeholder="Ingrese Apellido Materno" />
+                <mat-error *ngIf="clienteForm.field('ape_mat').invalid">
+                    {{ clienteForm.showErrors("ape_mat") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Número Documento</mat-label>
+                <input matInput type="text" formControlName="nro_doc" appDigitOnly required placeholder="Ingrese Numero Documento" minlength="8" maxlength="8" />
+                <mat-error *ngIf="clienteForm.field('nro_doc').invalid">
+                    {{ clienteForm.showErrors("nro_doc") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="text" formControlName="telefono" appDigitOnly required placeholder="Ingrese Teléfono" minlength="6" maxlength="12" />
+                <mat-error *ngIf="clienteForm.field('telefono').invalid">
+                    {{ clienteForm.showErrors("telefono") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Correo Electónico</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Ingrese Email" />
+                <mat-error *ngIf="clienteForm.field('email').invalid">
+                    {{ clienteForm.showErrors("email") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Número Celular</mat-label>
+                <input matInput type="text" formControlName="celular" appDigitOnly required placeholder="Ingrese Celular" minlength="9" maxlength="9" />
+                <mat-error *ngIf="clienteForm.field('celular').invalid">
+                    {{ clienteForm.showErrors("celular") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" formControlName="direccion" required placeholder="Ingrese Dirección" />
+                <mat-error *ngIf="clienteForm.field('direccion').invalid">
+                    {{ clienteForm.showErrors("direccion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Departamento</mat-label>
+                <mat-select formControlName="departamento_id" (valueChange)="getProvinces($event)">
+                    <mat-option *ngFor="let department of departments" [value]="department.id">
+                        {{ department?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clienteForm.field('departamento_id').invalid">
+                    {{ clienteForm.showErrors("departamento_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Provincia</mat-label>
+                <mat-select formControlName="provincia_id" (valueChange)="getDistricts($event)">
+                    <mat-option *ngFor="let province of provinces" [value]="province.id">
+                        {{ province?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clienteForm.field('provincia_id').invalid">
+                    {{ clienteForm.showErrors("provincia_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Distrito</mat-label>
+                <mat-select formControlName="distrito_id">
+                    <mat-option *ngFor="let district of districts" [value]="district.id">
+                        {{ district?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clienteForm.field('distrito_id').invalid">
+                    {{ clienteForm.showErrors("distrito_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- <mat-form-field appearance="outline">
+                <mat-label>Tipo Persona</mat-label>
+                <mat-select formControlName="tipo_persona_id">
+                    <mat-option *ngFor="let tipo of tipo_personas" [value]="tipo.id">
+                        {{ tipo?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clienteForm.field('tipo_persona_id').invalid">
+                    {{ clienteForm.showErrors("tipo_persona_id") }}
+                </mat-error>
+            </mat-form-field> -->
+        </div>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" color="primary" tabindex="2" form="frm-user">
+    <span [ngSwitch]="action">
+      <span *ngSwitchCase="'create'"> Guardar </span>
+      <span *ngSwitchCase="'update'"> Guardar Cambios </span>
+    </span>
+  </button>
+    <!-- <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action}}</button> -->
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+</div>

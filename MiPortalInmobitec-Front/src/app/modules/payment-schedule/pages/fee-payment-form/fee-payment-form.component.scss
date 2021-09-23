@@ -1,0 +1,89 @@
+.title {
+  margin: 0.5rem 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.payment-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 22px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 660px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.payment-data {
+  margin-top: 2rem;
+  p {
+    font-weight: 500;
+    font-size: 18px;
+  }
+}
+
+.card {
+  &-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0.5rem 0;
+  }
+
+  &-info {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+  }
+}
+
+.payment {
+  .mat-form-field {
+    margin-bottom: 1rem;
+  }
+
+  .input-file {
+    display: flex;
+    .button-container {
+      text-align: right;
+      margin-top: 0.8rem;
+      width: 65px;
+    }
+  }
+
+  .download-voucher {
+    margin-top: 0.8rem;
+
+    @media (max-width: 680px) {
+      text-align: center;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 22px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 660px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__actions {
+    margin: 1rem 0;
+    text-align: center;
+    button {
+      margin: 0.5rem;
+    }
+    mat-icon {
+      margin-right: 5px;
+    }
+  }
+}

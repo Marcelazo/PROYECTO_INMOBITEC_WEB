@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Motivo de Rechazo</h1>
+<mat-dialog-content>
+  <p class="text-muted">Descripción motivo :</p>
+  <div class="event-info">
+    {{
+      data.paymentSchedule?.ticket
+        ? data.paymentSchedule?.ticket?.motivoRechazo
+        : "No se a ingresado un motivo de rechazo."
+    }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="handleClickClose()" tabindex="-1">CERRAR</button>
+</mat-dialog-actions>

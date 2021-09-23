@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>
+    <span [ngSwitch]="action">
+<span *ngSwitchCase="'create'"> Crear Nuevo Usuario </span>
+    <span *ngSwitchCase="'update'"> Actualizar Usuario </span>
+    </span>
+</h2>
+<mat-dialog-content class="mat-typography user">
+    <form id="frm-user" [formGroup]="familiaForm.group" #ngFrmUser="ngForm" (ngSubmit)="handleSubmitUser(ngFrmUser)">
+        <h4>Datos de Usuario</h4>
+        <div class="user__grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" formControlName="nombre" required placeholder="Ingrese nombre" />
+                <mat-error *ngIf="familiaForm.field('nombre').invalid">
+                    {{ familiaForm.showErrors("nombre") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <input matInput type="text" formControlName="descripcion" required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="familiaForm.field('descripcion').invalid">
+                    {{ familiaForm.showErrors("descripcion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Orden</mat-label>
+                <input matInput type="text" formControlName="orden" required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="familiaForm.field('orden').invalid">
+                    {{ familiaForm.showErrors("orden") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Estado</mat-label>
+                <input matInput type="text" formControlName="estado" appDigitOnly required placeholder="Ingrese número de estado" minlength="1" maxlength="3" />
+                <mat-error *ngIf="familiaForm.field('estado').invalid">
+                    {{ familiaForm.showErrors("estado") }}
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" color="primary" tabindex="2" form="frm-user">
+<span [ngSwitch]="action">
+<span *ngSwitchCase="'create'"> Guardar </span>
+<span *ngSwitchCase="'update'"> Guardar Cambios </span>
+</span>
+</button>
+    <!-- <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action}}</button> -->
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+</div>

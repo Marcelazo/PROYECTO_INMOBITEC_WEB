@@ -1,0 +1,18 @@
+<div class="image-input {{ imageInputState }}" id="kt_image_2">
+  <div class="image-input-{{ wrapper }}" [style]="bgImage"></div>
+
+  <label class="btn" data-action="change" data-toggle="tooltip" matTooltip="Change avatar" matTooltipPosition="left">
+  <mat-icon class="icon-sm text-primary">edit</mat-icon>
+  <input
+    type="file"
+    #image
+    accept=".png, .jpg, .jpeg"
+    (change)="handleChageInputFile($event)"
+  />
+  <input type="hidden" name="profile_avatar_remove" />
+</label>
+
+  <label class="btn" data-action="cancel" data-toggle="tooltip" matTooltip="Cancel avatar" matTooltipPosition="left" (click)="handleClickCancel($event)">
+  <mat-icon class="icon-sm text-danger">close</mat-icon>
+</label>
+</div>
