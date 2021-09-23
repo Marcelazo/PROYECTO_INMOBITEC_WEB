@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>
+    <span [ngSwitch]="action">
+<span *ngSwitchCase="'create'"> Crear Nuevo Usuario </span>
+    <span *ngSwitchCase="'update'"> Actualizar Usuario </span>
+    </span>
+</h2>
+<mat-dialog-content class="mat-typography user">
+    <form id="frm-user" [formGroup]="grupoForm.group" #ngFrmUser="ngForm" (ngSubmit)="handleSubmitUser(ngFrmUser)">
+        <h4>Datos de Usuario</h4>
+        <div class="user__grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Clase</mat-label>
+                <input matInput type="text" formControlName="clase_id" required placeholder="Ingrese clase_id" />
+                <mat-error *ngIf="grupoForm.field('clase_id').invalid">
+                    {{ grupoForm.showErrors("clase_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" formControlName="nombre" required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="grupoForm.field('nombre').invalid">
+                    {{ grupoForm.showErrors("nombre") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <input matInput type="text" formControlName="descripcion" required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="grupoForm.field('descripcion').invalid">
+                    {{ grupoForm.showErrors("descripcion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Orden</mat-label>
+                <input matInput type="text" formControlName="orden" required placeholder="Ingrese número de orden" />
+                <mat-error *ngIf="grupoForm.field('orden').invalid">
+                    {{ grupoForm.showErrors("orden") }}
+                </mat-error>
+            </mat-form-field>
+
+
+        </div>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" color="primary" tabindex="2" form="frm-user">
+<span [ngSwitch]="action">
+  <span *ngSwitchCase="'create'"> Guardar </span>
+  <span *ngSwitchCase="'update'"> Guardar Cambios </span>
+</span>
+</button>
+    <!-- <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action}}</button> -->
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+</div>

@@ -1,0 +1,228 @@
+<h2 mat-dialog-title>
+    <span [ngSwitch]="action">
+  <span *ngSwitchCase="'create'"> Crear Nuevo Artículo </span>
+    <span *ngSwitchCase="'update'"> Actualizar Artículo </span>
+    </span>
+</h2>
+<mat-dialog-content class="mat-typography user">
+    <form id="frm-user" [formGroup]="articuloForm.group" #ngFrmUser="ngForm" (ngSubmit)="handleSubmitUser(ngFrmUser)">
+        <!-- <h4>Datos de Usuario</h4> -->
+        <div class="user__grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Código</mat-label>
+                <input matInput type="text" formControlName="codigo" required placeholder="Ingrese Código" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('codigo').invalid">
+                    {{ articuloForm.showErrors("codigo") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <input matInput type="text" formControlName="descripcion" required placeholder="Ingrese Descripción" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('descripcion').invalid">
+                    {{ articuloForm.showErrors("descripcion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Observación</mat-label>
+                <input matInput type="text" formControlName="observacion" required placeholder="Ingrese Observación" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('observacion').invalid">
+                    {{ articuloForm.showErrors("observacion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor de Costo</mat-label>
+                <input matInput type="text" formControlName="valor_costo" appNumbersOnly required placeholder="Ingrese P. de Costo" minlength="1" maxlength="20" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('valor_costo').invalid">
+                    {{ articuloForm.showErrors("valor_costo") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor de Venta</mat-label>
+                <input matInput type="text" formControlName="valor_venta" appNumbersOnly required placeholder="Ingrese el P. de Venta" minlength="1" maxlength="20" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('valor_venta').invalid">
+                    {{ articuloForm.showErrors("valor_venta") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Modelo</mat-label>
+                <input matInput type="text" formControlName="modelo" placeholder="Ingrese Modelo" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('modelo').invalid">
+                    {{ articuloForm.showErrors("modelo") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tamaño</mat-label>
+                <input matInput type="text" formControlName="tamaño" appDigitOnly required placeholder="Ingrese número de tamaño" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('tamaño').invalid">
+                    {{ articuloForm.showErrors("tamaño") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Color</mat-label>
+                <input matInput type="text" formControlName="color" appLettersWithSpace required placeholder="Ingrese color" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('color').invalid">
+                    {{ articuloForm.showErrors("color") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Familia</mat-label>
+                <mat-select formControlName="familia_id" (valueChange)="cargarClase($event)">
+                    <mat-option *ngFor="let familia of familias" [value]="familia?.id">
+                        {{ familia?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('familia_id').invalid">
+                    {{ articuloForm.showErrors("familia_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Clase</mat-label>
+                <mat-select formControlName="clase_id" (valueChange)="cargarGrupo($event)">
+                    <mat-option *ngFor="let clase of clases" [value]="clase?.id">
+                        {{ clase?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('clase_id').invalid">
+                    {{ articuloForm.showErrors("clase_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Grupo</mat-label>
+                <mat-select formControlName="grupo_id">
+                    <mat-option *ngFor="let grupo of grupos" [value]="grupo?.id">
+                        {{ grupo?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('grupo_id').invalid">
+                    {{ articuloForm.showErrors("grupo_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Marcas</mat-label>
+                <mat-select formControlName="marca_id">
+                    <mat-option *ngFor="let marca of marcas" [value]="marca?.id">
+                        {{ marca?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('marca_id').invalid">
+                    {{ articuloForm.showErrors("marca_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Unidad Medida</mat-label>
+                <mat-select formControlName="unidadMedida_id">
+                    <mat-option *ngFor="let unidad_medida of unidades_medida" [value]="unidad_medida?.id">
+                        {{ unidad_medida?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('unidadMedida_id').invalid">
+                    {{ articuloForm.showErrors("unidadMedida_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Moneda</mat-label>
+                <mat-select formControlName="tipoMoneda_id">
+                    <mat-option *ngFor="let tipo_moneda of tipo_monedas" [value]="tipo_moneda?.id">
+                        {{ tipo_moneda?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="articuloForm.field('tipoMoneda_id').invalid">
+                    {{ articuloForm.showErrors("tipoMoneda_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Peso Neto</mat-label>
+                <input matInput type="text" formControlName="peso_neto" appDigitOnly required placeholder="Ingrese Peso Neto" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('peso_neto').invalid">
+                    {{ articuloForm.showErrors("peso_neto") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Peso Envase</mat-label>
+                <input matInput type="text" formControlName="peso_envase" appDigitOnly required placeholder="Ingrese Peso Envase" autocomplete="off" />
+                <mat-error *ngIf="articuloForm.field('peso_envase').invalid">
+                    {{ articuloForm.showErrors("peso_envase") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Peso Bruto</mat-label>
+                <input matInput type="text" formControlName="peso_bruto" appDigitOnly required placeholder="Ingrese Peso Bruto" />
+                <mat-error *ngIf="articuloForm.field('peso_bruto').invalid">
+                    {{ articuloForm.showErrors("peso_bruto") }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="property-images">
+            <div class="property-images__header">
+                <h3>Fotos</h3>
+            </div>
+            <div class="property-images__body">
+                <p>
+                    Te recomendamos que subas fotos del inmueble a la luz del día, deben ser del exterior y del interior de varios ángulos.
+                </p>
+                <br />
+
+                <p class="post-images__info">
+                    Fotos añadidos : {{ images.length }}
+                </p>
+                <div class="post-images">
+                    <div *ngFor="let item of images; let id = index" [class]="item !== undefined && item !== null ? 'post-image' : ''">
+                        <app-image-input *ngIf="item !== undefined && item !== null" [id]="item.id" [srcImage]="item.data" [state]="item.state" (changeImage)="handleChangeImageInput($event)" (cancelImage)="handleCancelImageInput($event)"></app-image-input>
+                    </div>
+                    <div class="post-image upload primary">
+                        <label class="post-image-msg">
+                <h3 class="post-image-msg__title">
+                  <mat-icon>add_photo_alternate</mat-icon><br />
+                  Añadir Imágenes
+                </h3>
+                <span class="post-image-msg__desc">
+                  Haz clic para subirlos.
+                </span>
+                <input
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  multiple
+                  (change)="handleChangeFilesInput($event)"
+                />
+              </label>
+                    </div>
+                </div>
+                <p class="post-images__placeholder">
+                    Formatos permitidos: JPG, JPEG, PNG, GIF.Tamaño máximo: 5000 x 5000 pixeles.Peso máximo: 5MB por imagen.
+                </p>
+            </div>
+        </div>
+
+        <div [ngSwitch]="action" class="property__actions">
+            <button *ngSwitchCase="'update'" type="button" mat-raised-button color="primary" (click)="handleUpdateImages()">
+          Actualizar Fotos
+        </button>
+        </div>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" color="primary" tabindex="2" form="frm-user">
+  <span [ngSwitch]="action">
+    <span *ngSwitchCase="'create'"> Guardar </span>
+    <span *ngSwitchCase="'update'"> Guardar Cambios </span>
+  </span>
+</button>
+    <!-- <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action}}</button> -->
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+</div>

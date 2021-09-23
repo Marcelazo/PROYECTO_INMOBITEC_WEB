@@ -1,0 +1,41 @@
+.card-content-filter {
+  padding: 12px 24px;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.filter {
+  display: grid;
+  column-gap: 22px;
+
+  mat-datepicker-toggle {
+    display: inline-block;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.property-actions {
+  .btn-action {
+    margin: 6px;
+
+    &.success {
+      background: #009688;
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+form-field-wrapper {
+  margin-bottom: 1rem;
+}
+
+.mat-icon {
+  color: #aaa;
+}
+
+.login-error {
+  margin-bottom: 1rem;
+  .mat-card {
+    margin: 0;
+  }
+
+  .mat-card-content {
+    padding: 12px;
+  }
+}

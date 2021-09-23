@@ -1,0 +1,153 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Filtros</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-content-filter">
+        <div class="filter" [formGroup]="formFilter.group">
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select
+              formControlName="status"
+              (selectionChange)="handleFilterProperties()"
+            >
+              <mat-option>Todos</mat-option>
+              <mat-option
+                *ngFor="let userState of userStatuses"
+                [value]="userState"
+              >
+                <app-state-badge [state]="userState"> </app-state-badge>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de Venta</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                matStartDate
+                formControlName="startDate"
+                placeholder="Desde"
+                (dateChange)="handleFilterProperties()"
+                readonly
+              />
+              <input
+                matEndDate
+                formControlName="endDate"
+                placeholder="Hasta"
+                (dateChange)="handleFilterProperties()"
+                readonly
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker-toggle
+              *ngIf="formFilter.filledAnyDates"
+              matSuffix
+              (click)="handleClearFilterDates($event)"
+            >
+              <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Buscar Inmuebles</mat-label>
+            <input
+              matInput
+              formControlName="search"
+              (keyup)="applyFilter($event)"
+              placeholder="Buscar..."
+              #input
+            />
+          </mat-form-field> -->
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div fxLayout="row wrap">
+  <div
+    fxFlex.gt-lg="25"
+    fxFlex.gt-md="33.33"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+    *ngFor="let preSale of preSales"
+  >
+    <mat-card>
+      <mat-card-content class="text-center">
+        <h4 class="card-title m-b-15">{{ preSale.propertyTitle }}</h4>
+        <p class="text-muted">{{ preSale.property?.m2 }} M<sup>2</sup></p>
+        <a
+          href="#"
+          #downloadFile
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: none"
+          >...</a
+        >
+        <div class="m-t-20 property-actions">
+          <button
+            mat-raised-button
+            class="btn-primary btn-action"
+            [routerLink]="['/cuotas', preSale.id]"
+          >
+            <mat-icon>fact_check</mat-icon>
+            Cuotas
+          </button>
+          <!-- <button mat-raised-button color="accent">Pagar Cuota N° 1</button> -->
+          <button
+            mat-raised-button
+            class="btn-action success"
+            [disabled]="preSale.downloadStatus"
+            (click)="handleDownloadPdf(preSale)"
+          >
+            <mat-icon *ngIf="preSale.downloadStatus">
+              <app-progress-icon></app-progress-icon>
+            </mat-icon>
+            <mat-icon *ngIf="!preSale.downloadStatus">download</mat-icon>
+            Cronograma Pagos
+          </button>
+        </div>
+        <div class="m-t-20">
+          <p>
+            <b>Estado :</b>&nbsp;&nbsp;
+            <app-state-badge [state]="preSale.stateBadge"></app-state-badge>
+          </p>
+          <p><b>Tipo de Pago :</b> {{ preSale.paymentType.descripcion }}</p>
+          <p><b>Fecha de Venta :</b> {{ preSale.fechaVenta | date }}</p>
+          <p><b>N° Cuotas :</b> {{ preSale.nroCuotas }}</p>
+          <br />
+          <span>
+            {{ preSale.company?.razonSocial }}
+            <br />
+            <br />
+            <i class="fa fa-phone m-r-10"></i>
+            (01) {{ preSale.company?.telefono }} - {{ preSale.company?.ciudad }}
+          </span>
+        </div>
+      </mat-card-content>
+      <div fxLayout="row wrap" class="text-center bg-light border-top">
+        <div fxFlex.gt-xs="33.33" fxFlex="33.33" class="p-t-10 p-b-10">
+          <a href="javascript:void(0)" class="link">
+            <!-- <i class="fa fa-instagram m-r-10 m-t-0 m-b-5"></i> -->
+            <!-- 234 -->
+          </a>
+        </div>
+        <div fxFlex.gt-xs="33.33" fxFlex="33.33" class="p-t-10 p-b-10">
+          <a href="javascript:void(0)" class="link">
+            <!-- <i class="fa fa-linkedin m-r-10 m-t-0 m-b-5"></i> -->
+            Precio Final
+          </a>
+        </div>
+        <div fxFlex.gt-xs="33.33" fxFlex="33.33" class="p-t-10 p-b-10">
+          <a href="javascript:void(0)" class="link">
+            <!-- <i class="fa fa-facebook m-r-10 m-t-0 m-b-5"></i> -->
+            S/. {{ preSale?.precioFinal }}
+          </a>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

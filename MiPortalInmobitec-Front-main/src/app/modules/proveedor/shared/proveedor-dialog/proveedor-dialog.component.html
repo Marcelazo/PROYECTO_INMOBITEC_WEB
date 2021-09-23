@@ -1,0 +1,146 @@
+<h2 mat-dialog-title>
+    <span [ngSwitch]="action">
+  <span *ngSwitchCase="'create'"> Crear Nuevo Proveedor </span>
+    <span *ngSwitchCase="'update'"> Actualizar Proveedor </span>
+    </span>
+</h2>
+<mat-dialog-content class="mat-typography user">
+    <form id="frm-user" [formGroup]="proveedorForm.group" #ngFrmUser="ngForm" (ngSubmit)="handleSubmitUser(ngFrmUser)">
+        <h4>Datos del Proveedor</h4>
+        <div class="user__grid">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Ruc</mat-label>
+                <input maxlength="11" minlength="11" matInput type="text" formControlName="ruc" appDigitOnly required placeholder="Ingrese nombre" />
+                <mat-error *ngIf="proveedorForm.field('ruc').invalid">
+                    {{ proveedorForm.showErrors("ruc") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" formControlName="nombre" appLettersWithSpace required placeholder="Ingrese nombre" />
+                <mat-error *ngIf="proveedorForm.field('nombre').invalid">
+                    {{ proveedorForm.showErrors("nombre") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Giro</mat-label>
+                <input matInput type="text" formControlName="giro" appLettersWithSpace required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="proveedorForm.field('giro').invalid">
+                    {{ proveedorForm.showErrors("giro") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Sigla</mat-label>
+                <input matInput type="text" formControlName="sigla" appLettersWithSpace required placeholder="Ingrese apellidos" />
+                <mat-error *ngIf="proveedorForm.field('sigla').invalid">
+                    {{ proveedorForm.showErrors("sigla") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" formControlName="direccion" required placeholder="Ingrese número de direccion" />
+                <mat-error *ngIf="proveedorForm.field('direccion').invalid">
+                    {{ proveedorForm.showErrors("direccion") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Teléfono</mat-label>
+                <input maxlength="9" matInput type="text" formControlName="telefono" appDigitOnly required placeholder="Ingrese número de telefono" minlength="6" maxlength="12" />
+                <mat-error *ngIf="proveedorForm.field('telefono').invalid">
+                    {{ proveedorForm.showErrors("telefono") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Zip</mat-label>
+                <input matInput type="text" formControlName="zip" appLettersWithSpace required placeholder="Ingrese número de zip" />
+                <mat-error *ngIf="proveedorForm.field('zip').invalid">
+                    {{ proveedorForm.showErrors("zip") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Correo Electónico</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Ingrese correo electónico" />
+                <mat-error *ngIf="proveedorForm.field('email').invalid">
+                    {{ proveedorForm.showErrors("email") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Departamento</mat-label>
+                <mat-select formControlName="departamento_id" (valueChange)="getProvinces($event)">
+                    <mat-option *ngFor="let department of departments" [value]="department.id">
+                        {{ department?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="proveedorForm.field('departamento_id').invalid">
+                    {{ proveedorForm.showErrors("departamento_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Provincia</mat-label>
+                <mat-select formControlName="provincia_id" (valueChange)="getDistricts($event)">
+                    <mat-option *ngFor="let province of provinces" [value]="province.id">
+                        {{ province?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="proveedorForm.field('provincia_id').invalid">
+                    {{ proveedorForm.showErrors("provincia_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Distrito</mat-label>
+                <mat-select formControlName="distrito_id">
+                    <mat-option *ngFor="let district of districts" [value]="district.id">
+                        {{ district?.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="proveedorForm.field('distrito_id').invalid">
+                    {{ proveedorForm.showErrors("distrito_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Persona</mat-label>
+                <mat-select formControlName="tipo_persona_id">
+                    <mat-option *ngFor="let tipo of tipo_personas" [value]="tipo.id">
+                        {{ tipo?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="proveedorForm.field('tipo_persona_id').invalid">
+                    {{ proveedorForm.showErrors("tipo_persona_id") }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Identificación</mat-label>
+                <mat-select formControlName="tipo_identificacion_id">
+                    <mat-option *ngFor="let tipo_identificacion of tipo_identificaciones" [value]="tipo_identificacion.id">
+                        {{ tipo_identificacion?.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="proveedorForm.field('tipo_identificacion_id').invalid">
+                    {{ proveedorForm.showErrors("tipo_identificacion_id") }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" color="primary" tabindex="2" form="frm-user">
+  <span [ngSwitch]="action">
+    <span *ngSwitchCase="'create'"> Guardar </span>
+    <span *ngSwitchCase="'update'"> Guardar Cambios </span>
+  </span>
+</button>
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+</div>

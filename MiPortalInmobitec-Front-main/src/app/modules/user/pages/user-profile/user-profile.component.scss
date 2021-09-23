@@ -1,0 +1,55 @@
+.user-form {
+  &__grid {
+    display: grid;
+    column-gap: 22px;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1440px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__actions {
+    text-align: center;
+
+    .mat-icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.password-form {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 22px;
+    padding: 2rem 0;
+
+    @media (max-width: 1260px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 680px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__actions {
+    text-align: center;
+
+    .mat-icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.mat-form-field {
+  margin-bottom: 0.5rem;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}

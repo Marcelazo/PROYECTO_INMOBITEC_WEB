@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "http://inmueble-backend.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+    }
+}

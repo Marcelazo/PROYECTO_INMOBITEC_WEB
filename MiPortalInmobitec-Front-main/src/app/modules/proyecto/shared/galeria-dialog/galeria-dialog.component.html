@@ -1,0 +1,45 @@
+<div class="property-images">
+  <div class="property-images__header">
+      <h3>Fotos</h3>
+  </div>
+  <div class="property-images__body">
+      <p>
+          Te recomendamos que subas fotos del inmueble a la luz del día, deben ser del exterior y del interior de varios ángulos.
+      </p>
+      <br />
+
+      <p class="post-images__info">
+          Fotos añadidos : {{ images.length }}
+      </p>
+      <div class="post-images">
+          <div *ngFor="let item of images; let id = index" [class]="item !== undefined && item !== null ? 'post-image' : ''">
+              <app-image-input *ngIf="item !== undefined && item !== null" [id]="item.id" [srcImage]="item.data" [state]="item.state" (changeImage)="handleChangeImageInput($event)" (cancelImage)="handleCancelImageInput($event)"></app-image-input>
+          </div>
+          <div class="post-image upload primary">
+              <label class="post-image-msg">
+      <h3 class="post-image-msg__title">
+        <mat-icon>add_photo_alternate</mat-icon><br />
+        Añadir Imágenes
+      </h3>
+      <span class="post-image-msg__desc">
+        Haz clic para subirlos.
+      </span>
+      <input
+        type="file"
+        accept=".png, .jpg, .jpeg"
+        multiple
+        (change)="handleChangeFilesInput($event)"
+      />
+    </label>
+          </div>
+      </div>
+      <p class="post-images__placeholder">
+          Formatos permitidos: JPG, JPEG, PNG, GIF.Tamaño máximo: 5000 x 5000 pixeles.Peso máximo: 5MB por imagen.
+      </p>
+  </div>
+</div>
+<div class="property__actions">
+  <button type="button" mat-raised-button color="primary" (click)="handleUpdateImages()">
+Actualizar Fotos
+</button>
+</div>
