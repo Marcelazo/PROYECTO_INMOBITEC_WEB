@@ -1,0 +1,24 @@
+.mat-dialog-actions {
+  padding: 0.5rem 0 1.5rem 0;
+}
+
+.motive-info {
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+
+  .mat-button {
+    margin: 0 0.5rem;
+  }
+
+  @media (max-width: 680px) {
+    padding: 1rem;
+    .mat-button {
+      margin: 0.5rem;
+    }
+  }
+
+  @media (max-width: 425px) {
+    padding: 3rem 0;
+  }
+}

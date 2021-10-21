@@ -1,0 +1,68 @@
+.mat-card-content {
+  padding: 12px 24px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.filter {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 22px;
+
+  mat-datepicker-toggle {
+    display: inline-block;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1600px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.supplier-list {
+  table {
+    width: 100%;
+  }
+
+  th.mat-header-cell {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  td.mat-cell,
+  td.mat-footer-cell,
+  th.mat-header-cell {
+    padding: 10px !important;
+    &.cell-expanded-detail {
+      padding: 0 !important;
+    }
+  }
+
+  .mat-button {
+    margin: 0 5px;
+  }
+
+  .mat-button.info {
+    color: #1bc5bd;
+    // color: #fff;
+  }
+
+  .mat-button.danger {
+    color: #f44336;
+  }
+
+  .mat-button.success {
+    background: #009688;
+    color: #fff;
+  }
+}

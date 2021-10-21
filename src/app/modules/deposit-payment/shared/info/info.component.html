@@ -1,0 +1,90 @@
+<h1 mat-dialog-title>
+  {{ paymentSchedule.preSale?.propertyTitle }} - Cuota N°
+  {{ paymentSchedule?.nroCuota }}
+</h1>
+<mat-dialog-content>
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Información">
+      <p>
+        <strong>Cuota ID :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule.id }}
+      </p>
+      <p>
+        <strong>Estado :&nbsp;&nbsp;</strong>
+        <app-state-badge [state]="paymentSchedule?.stateBadge">
+        </app-state-badge>
+      </p>
+      <p>
+        <strong>Fecha de Pago :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticket?.createdAt | date: "d MMMM y, h:mm a" }}
+      </p>
+      <p>
+        <strong>Monto :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticket?.monto | currency }}
+      </p>
+      <p *ngIf="paymentSchedule.isApproved">
+        <strong>N° de Boleta :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticketCode }}
+      </p>
+      <mat-divider></mat-divider>
+      <h2 class="sub-title">Datos Pago</h2>
+      <p>
+        <strong>Método de Pago :&nbsp;&nbsp;</strong>
+        Transferencia / Deposito
+      </p>
+      <p *ngIf="transferType">
+        <strong>Tipo Transferencia :&nbsp;&nbsp;</strong>
+        {{ transferType }}
+      </p>
+      <p *ngIf="transferBank">
+        <strong>Banco :&nbsp;&nbsp;</strong>
+        {{ transferBank }}
+      </p>
+      <p *ngIf="typeOperation">
+        <strong>Tipo de Operación :&nbsp;&nbsp;</strong>
+        {{ typeOperation }}
+      </p>
+      <p>
+        <strong>Número de Operación :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticket?.nroOpe }}
+      </p>
+      <p>
+        <strong>Fecha de Depósito :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticket?.fechaDep | date: "d MMMM y" }}
+      </p>
+      <p>
+        <strong>Referencia :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.ticket?.referencia }}
+      </p>
+      <mat-divider></mat-divider>
+      <h2 class="sub-title">Cliente</h2>
+      <p>
+        <strong>Nombre y Apellidos :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule?.preSale?.customerFullName }}
+      </p>
+      <p>
+        <strong>DNI / Carnet de extranjería :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule.preSale?.customer?.nroDoc }}
+      </p>
+      <p *ngIf="paymentSchedule.preSale?.customer?.email">
+        <strong>Email :&nbsp;&nbsp;</strong>
+        {{ paymentSchedule.preSale?.customer?.email }}
+      </p>
+    </mat-tab>
+    <mat-tab label="Voucher de Depósito">
+      <div class="voucher__container">
+        <a [href]="paymentSchedule.voucherUrl" target="_blank">
+          <img
+            class="voucher__img"
+            [src]="paymentSchedule.voucherUrl"
+            alt="Voucher"
+            width="80%"
+          />
+        </a>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="handleClickClose()" tabindex="-1">Cerrar</button>
+</mat-dialog-actions>

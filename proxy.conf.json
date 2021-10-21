@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "https://backend.inmobitec.pe",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}

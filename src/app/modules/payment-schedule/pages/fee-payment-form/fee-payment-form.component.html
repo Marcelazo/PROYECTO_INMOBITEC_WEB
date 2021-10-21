@@ -1,0 +1,297 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="user">
+        <mat-card-title>
+          <h2 class="title">Cuota N° {{ paymentSchedule?.nroCuota }}</h2>
+        </mat-card-title>
+        <div class="payment-data">
+          <p>Tipo de Operación: <small>Pago Cuota</small></p>
+          <p>
+            Monto de Cuota:
+            <small>{{ paymentSchedule?.monto | currency }}</small>
+          </p>
+        </div>
+        <div class="payment-info">
+          <div class="card">
+            <h3 class="card-title">Mis datos</h3>
+            <div>
+              <p class="card-info">
+                NOMBRE Y APELLIDOS : <small>{{ auth?.user?.fullName }}</small>
+              </p>
+              <p class="card-info">
+                DNI : <small>{{ auth?.user?.document }}</small>
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Inmueble</h3>
+            <div>
+              <p class="card-info">
+                <b
+                  >{{ paymentSchedule?.preSale?.propertyTitle }} => Cuota N°:
+                  {{ paymentSchedule?.nroCuota }}</b
+                >
+              </p>
+              <p class="card-info">
+                PROYECTO :
+                <small>
+                  {{ paymentSchedule?.preSale?.project?.nombre }}
+                </small>
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Empresa</h3>
+            <div>
+              <p class="card-info">
+                <b>{{ paymentSchedule?.preSale?.company?.razonSocial }}</b>
+              </p>
+              <p class="card-info">
+                RUC :
+                <small>{{ paymentSchedule?.preSale?.company?.ruc }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <form
+          class="m-t-20"
+          [formGroup]="form.group"
+          #ngFrmPayment="ngForm"
+          (ngSubmit)="handleSubmit(ngFrmPayment)"
+        >
+          <div class="payment">
+            <div class="payment__grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Método de Pago</mat-label>
+                <mat-select formControlName="paymentMethod">
+                  <mat-option [value]="2">
+                    Transferencia / Deposito
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.field('paymentMethod').invalid">
+                  {{ form.showErrors("paymentMethod") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Monto Depósito (S/.)</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="amount"
+                  required
+                  placeholder="Monto"
+                  readonly
+                />
+                <mat-error *ngIf="form.field('amount').invalid">
+                  {{ form.showErrors("amount") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Cuenta Bancaria</mat-label>
+                <mat-select formControlName="account">
+                  <mat-option
+                    *ngFor="let bankAccount of bankAccounts"
+                    [value]="bankAccount.id"
+                  >
+                    {{ bankAccount?.accountName }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.field('account').invalid">
+                  {{ form.showErrors("account") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo Transferencia</mat-label>
+                <mat-select
+                  formControlName="transferType"
+                  (valueChange)="handleChangeMode($event)"
+                >
+                  <mat-option
+                    *ngFor="let item of parameters?.transferType"
+                    [value]="item?.string1"
+                  >
+                    {{ item?.descripcion }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.field('transferType').invalid">
+                  {{ form.showErrors("transferType") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                *ngIf="showBankDetailsFields"
+              >
+                <mat-label>Banco</mat-label>
+                <mat-select
+                  formControlName="transferBank"
+                  [required]="showBankDetailsFields"
+                >
+                  <mat-option
+                    *ngFor="let item of parameters?.transferBank"
+                    [value]="item?.string1"
+                  >
+                    {{ item?.descripcion }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.field('transferBank').invalid">
+                  {{ form.showErrors("transferBank") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                *ngIf="showBankDetailsFields"
+              >
+                <mat-label>Tipo de Operación</mat-label>
+                <mat-select
+                  formControlName="typeOperation"
+                  [required]="showBankDetailsFields"
+                >
+                  <mat-option
+                    *ngFor="let item of parameters?.typeOperation"
+                    [value]="item?.string1"
+                  >
+                    {{ item?.descripcion }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.field('typeOperation').invalid">
+                  {{ form.showErrors("typeOperation") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Número de Operación</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="operationNumber"
+                  appDigitOnly
+                  required
+                  placeholder="Ingrese su número de operación"
+                  minlength="2"
+                  maxlength="20"
+                />
+                <mat-error *ngIf="form.field('operationNumber').invalid">
+                  {{ form.showErrors("operationNumber") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha de Depósito</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="depositDatePicker"
+                  [min]="minDate"
+                  [max]="maxDate"
+                  formControlName="depositDate"
+                  readonly="true"
+                />
+                <mat-datepicker-toggle matSuffix [for]="depositDatePicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #depositDatePicker></mat-datepicker>
+                <mat-error *ngIf="form.field('depositDate').invalid">
+                  {{ form.showErrors("depositDate") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Referencia</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="reference"
+                  placeholder="Referencia o descripción"
+                  maxlength="255"
+                />
+                <mat-error *ngIf="form.field('reference').invalid">
+                  {{ form.showErrors("reference") }}
+                </mat-error>
+              </mat-form-field>
+              <div class="input-file">
+                <mat-form-field appearance="outline">
+                  <mat-label>
+                    {{
+                      fileInput?.files?.length
+                        ? "Voucher de depósito"
+                        : "Selecciona voucher de depósito"
+                    }}
+                  </mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="fileName"
+                    required
+                    readonly
+                    placeholder="Selecciona voucher de depósito"
+                    (click)="fileInput?.click()"
+                  />
+                  <mat-error *ngIf="form.field('fileName').invalid">
+                    {{ form.showErrors("fileName") }}
+                  </mat-error>
+                </mat-form-field>
+                <div class="button-container">
+                  <input
+                    type="file"
+                    #fileInput
+                    formControlName="fileInput"
+                    hidden
+                    accept=".png, .jpg, .jpeg, .pdf"
+                    (change)="handleFileSelected($event)"
+                  />
+                  <button
+                    mat-mini-fab
+                    type="button"
+                    color="primary"
+                    aria-label="Cargar Voucher de Depósito"
+                    matTooltip="Cargar Voucher de Depósito"
+                    matTooltipPosition="below"
+                    (click)="fileInput?.click()"
+                  >
+                    <mat-icon>attachment</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="showDownloadVoucher" class="download-voucher">
+                <button
+                  type="button"
+                  mat-raised-button
+                  matTooltip="Descargar Comprobante de Pago"
+                  matTooltipPosition="below"
+                  color="primary"
+                  [disabled]="downloadVoucherStatus"
+                  (click)="downloadVoucher()"
+                >
+                  <mat-icon class="progress-icon" *ngIf="downloadVoucherStatus">
+                    <app-progress-icon></app-progress-icon>
+                  </mat-icon>
+                  <mat-icon *ngIf="!downloadVoucherStatus">download</mat-icon>
+                  Descargar Voucher
+                </button>
+              </div>
+            </div>
+            <div class="payment__actions">
+              <button
+                *ngIf="isSubmit"
+                type="submit"
+                mat-raised-button
+                class="btn-primary"
+                [disabled]="form.state.loading"
+              >
+                <mat-icon class="progress-icon" *ngIf="form.state.loading">
+                  <app-progress-icon></app-progress-icon>
+                </mat-icon>
+                <mat-icon *ngIf="!form.state.loading">payment</mat-icon>
+                {{ isEditing ? "Actualizar Pago" : "Pagar Cuota" }}
+              </button>
+              <button
+                type="button"
+                mat-stroked-button
+                color="primary"
+                (click)="backToCuotasPage()"
+              >
+                <mat-icon>keyboard_arrow_left</mat-icon>Regresar
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

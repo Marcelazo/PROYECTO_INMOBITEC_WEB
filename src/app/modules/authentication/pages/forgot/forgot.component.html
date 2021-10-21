@@ -1,0 +1,172 @@
+<div class="login-register">
+  <div class="login-register-box">
+    <mat-card>
+      <mat-card-content>
+        <div class="text-center">
+          <img src="assets/images/logo.png" width="200" alt="Logo Inmobitec" />
+          <br />
+          <h4 class="m-t-10 m-b-10">
+            {{ info.title }}
+          </h4>
+        </div>
+        <p class="text-center font-14">
+          {{ info.description }}
+        </p>
+
+        <div class="login-error" *ngIf="forgotError">
+          <mat-card class="bg-light-danger">
+            <mat-card-content>
+              <h5 class="text-danger m-t-0 m-b-10">
+                {{ forgotError }}
+              </h5>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <form
+          *ngIf="stepValue === 1"
+          [formGroup]="forgotForm.group"
+          #ngFrmForgot="ngForm"
+          (ngSubmit)="handleForgotPassword(ngFrmForgot)"
+        >
+          <div fxLayout="column" fxLayoutAlign="space-around">
+            <div class="pb-1">
+              <mat-form-field appearance="outline">
+                <mat-label>N° de Documento</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="document"
+                  appDigitOnly
+                  required
+                  placeholder="Ingrese número de documento"
+                  minlength="8"
+                  maxlength="20"
+                />
+                <mat-error *ngIf="forgotForm.field('document').invalid">
+                  {{ forgotForm.showErrors("document") }}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Apellido Paterno</mat-label>
+                <input
+                  matInput
+                  formControlName="fatherSurname"
+                  type="text"
+                  required
+                  placeholder="Ingrese apellido paterno"
+                  autocomplete="off"
+                />
+                <mat-error *ngIf="forgotForm.field('fatherSurname').invalid">
+                  {{ forgotForm.showErrors("fatherSurname") }}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Apellido Materno</mat-label>
+                <input
+                  matInput
+                  formControlName="motherSurname"
+                  type="text"
+                  required
+                  placeholder="Ingrese apellido materno"
+                  autocomplete="off"
+                />
+                <mat-error *ngIf="forgotForm.field('motherSurname').invalid">
+                  {{ forgotForm.showErrors("motherSurname") }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="btn-block btn-lg m-t-20"
+              [disabled]="
+                forgotForm.invalid === true || forgotForm.state.loading
+              "
+            >
+              Recuperar Contraseña
+            </button>
+          </div>
+        </form>
+
+        <form
+          *ngIf="stepValue === 2"
+          [formGroup]="passwordForm.group"
+          #ngFrmPassword="ngForm"
+          (ngSubmit)="handleChangePassword(ngFrmPassword)"
+        >
+          <div fxLayout="column" fxLayoutAlign="space-around">
+            <div class="pb-1">
+              <mat-form-field appearance="outline">
+                <mat-label>Nueva Contraseña</mat-label>
+                <input
+                  matInput
+                  formControlName="password"
+                  [type]="hidePwd ? 'password' : 'text'"
+                  required
+                  placeholder="Ingrese su nueva contraseña"
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePwd = !hidePwd"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePwd"
+                >
+                  <mat-icon>
+                    {{ hidePwd ? "visibility_off" : "visibility" }}
+                  </mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.field('password').invalid">
+                  {{ passwordForm.showErrors("password") }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Repetir Nueva Contraseña</mat-label>
+                <input
+                  matInput
+                  formControlName="passwordConfirm"
+                  [type]="hidePwdConfirm ? 'password' : 'text'"
+                  required
+                  placeholder="Reingrese su nueva contraseña"
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePwdConfirm = !hidePwdConfirm"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePwdConfirm"
+                >
+                  <mat-icon>
+                    {{ hidePwdConfirm ? "visibility_off" : "visibility" }}
+                  </mat-icon>
+                </button>
+                <mat-error
+                  *ngIf="passwordForm.field('passwordConfirm').invalid"
+                >
+                  {{ passwordForm.showErrors("passwordConfirm") }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              class="btn-block btn-lg m-t-20"
+              [disabled]="
+                passwordForm.invalid === true || passwordForm.state.loading
+              "
+            >
+              Cambiar Contraseña
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

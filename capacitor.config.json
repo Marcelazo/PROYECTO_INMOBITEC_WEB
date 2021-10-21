@@ -1,0 +1,13 @@
+{
+  "appId": "com.esolucionescloud.miportalInmobitec",
+  "appName": "miportalInmobitec",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/miportal-inmobitec",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

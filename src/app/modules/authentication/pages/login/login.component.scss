@@ -1,0 +1,36 @@
+form-field-wrapper {
+  margin-bottom: 1rem;
+}
+
+.login-error {
+  margin-bottom: 1rem;
+  .mat-card {
+    margin: 0;
+  }
+
+  .mat-card-content {
+    padding: 12px;
+  }
+}
+
+.mat-icon {
+  color: #aaa;
+}
+
+.img-left {
+  width: 333px;
+  border-radius: 20px;
+}
+
+.video-right {
+  border-radius: 20px;
+}
+
+@media (max-width: 1140px) {
+  .login-register {
+    display: grid;
+    row-gap: 1.5rem;
+    padding: 1.5rem 0;
+    height: 100%;
+  }
+}
